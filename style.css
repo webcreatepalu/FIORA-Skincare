@@ -256,11 +256,21 @@ button {
 .section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 32px;
+  padding: 60px 32px;
+}
+.reveal-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+  will-change: opacity, transform;
+}
+.reveal-item.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 .section-intro {
   max-width: 720px;
-  margin-bottom: 42px;
+  margin-bottom: 30px;
 }
 .section-subtitle {
   margin: 0 0 14px;
@@ -283,31 +293,38 @@ button {
   display: grid;
   gap: 24px;
 }
-.feature-grid {
-  grid-template-columns: repeat(4, minmax(220px, 1fr));
+.feature-grid,
+.instagram-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 .feature-card,
 .benefit-card,
 .ingredient-card,
 .instagram-card,
 .newsletter-card,
-.contact-info,
+.contact-card,
 .product-card-glass,
+.order-product-card,
 .testimonial-card {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal-visible {
   opacity: 1;
   transform: translateY(0);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 .feature-card {
-  background: rgba(255,255,255,0.9);
+  background: rgba(255,255,255,0.95);
   border-radius: 26px;
   padding: 28px;
   border: 1px solid rgba(233,30,99,0.12);
   box-shadow: 0 20px 40px rgba(141,61,122,0.08);
+}
+.feature-card:hover,
+.product-card-glass:hover,
+.order-product-card:hover,
+.newsletter-card:hover,
+.ingredient-card:hover,
+.instagram-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 34px 90px rgba(141,61,122,0.14);
 }
 .feature-icon {
   width: 62px;
@@ -760,8 +777,7 @@ button {
 }
 
 /* subtle staggered reveal for grid children */
-.instagram-grid a { opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal-visible .instagram-grid a { opacity: 1; transform: translateY(0); }
+.instagram-grid a { opacity: 1; transform: translateY(0); transition: opacity 0.35s ease, transform 0.35s ease; }
 .section-newsletter {
   padding-top: 60px;
   padding-bottom: 60px;
@@ -854,13 +870,71 @@ button {
 .contact-button-wrap {
   padding-top: 8px;
 }
+.contact-card {
+  border-radius: 32px;
+  background: linear-gradient(180deg, rgba(255,245,249,0.95), rgba(255,230,240,0.9));
+  border: 1px solid rgba(233,30,99,0.12);
+  box-shadow: 0 35px 90px rgba(233,30,99,0.10);
+  padding: 32px;
+  display: grid;
+  gap: 24px;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+.contact-card:hover {
+  background: linear-gradient(180deg, rgba(255,245,249,1), rgba(255,238,246,0.98));
+}
+.contact-card-head h3,
+.form-head h3 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #4d2447;
+}
+.contact-card-head {
+  display: grid;
+  gap: 10px;
+}
+.contact-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.contact-card-actions .button {
+  flex: 1 1 calc(50% - 7px);
+}
+.contact-details {
+  display: grid;
+  gap: 16px;
+}
+.contact-item {
+  display: grid;
+  gap: 6px;
+}
+.contact-map {
+  position: relative;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(141,61,122,0.14);
+}
+.contact-map iframe {
+  width: 100%;
+  min-height: 300px;
+  border: 0;
+  transition: transform 0.35s ease;
+}
+.contact-map:hover iframe {
+  transform: scale(1.01);
+}
 .contact-form {
   display: grid;
   gap: 18px;
-  background: rgba(255,255,255,0.92);
-  border-radius: 28px;
-  padding: 32px;
-  box-shadow: 0 30px 80px rgba(141,61,122,0.08);
+  background: rgba(255,255,255,0.96);
+  border-radius: 32px;
+  padding: 34px;
+  box-shadow: 0 35px 80px rgba(141,61,122,0.12);
+}
+.form-head {
+  display: grid;
+  gap: 10px;
 }
 .form-group {
   display: grid;
@@ -868,15 +942,89 @@ button {
 }
 .form-group label {
   font-weight: 600;
-  color: #403145;
+  color: #4d2447;
 }
 .form-group input,
 .form-group textarea {
   border: 1px solid rgba(233,30,99,0.16);
   border-radius: 18px;
   padding: 16px 18px;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.98);
   color: var(--text);
+}
+.contact-toast {
+  margin-top: 6px;
+  padding: 14px 18px;
+  background: rgba(39, 72, 131, 0.08);
+  border: 1px solid rgba(39, 72, 131, 0.18);
+  color: #352049;
+  border-radius: 18px;
+  animation: fadeInUp 0.45s ease;
+}
+.floating-contact-group {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 100;
+  display: grid;
+  gap: 12px;
+  align-items: end;
+  justify-items: end;
+  pointer-events: none;
+}
+.floating-contact-group * {
+  pointer-events: auto;
+}
+.floating-contact-label {
+  background: rgba(255,255,255,0.92);
+  color: #5c2b50;
+  padding: 10px 14px;
+  border-radius: 999px;
+  box-shadow: 0 18px 50px rgba(141,61,122,0.12);
+  font-size: 0.95rem;
+  font-weight: 600;
+  pointer-events: auto;
+}
+.floating-contact-button {
+  pointer-events: auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 0 20px 55px rgba(233,30,99,0.2);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.floating-contact-button:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+.whatsapp-float {
+  background: linear-gradient(135deg, var(--pink-dark), var(--pink-medium));
+}
+.maps-float {
+  background: linear-gradient(135deg, #ff839e, #e44a93);
+}
+.floating-contact-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+  animation: pulse 1.8s infinite;
+  pointer-events: none;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.22); }
+  70% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .footer {
   max-width: 1200px;
@@ -994,6 +1142,9 @@ button {
     gap: 18px;
     flex-direction: column;
   }
+  body.nav-open {
+    overflow: hidden;
+  }
   body.nav-open .nav-bar {
     display: flex;
   }
@@ -1017,42 +1168,221 @@ button {
   .section-features,
   .section-benefits,
   .section-ingredients,
-  .section-instagram {
-    padding-bottom: 60px;
+  .section-instagram,
+  .section-contact,
+  .section-testimonials,
+  .section-newsletter {
+    padding-bottom: 48px;
   }
 }
 @media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .hero-section,
+  .section,
+  .footer,
+  .product-card-glass,
+  .order-layout,
+  .cart-panel,
+  .testimonial-cards,
+  .contact-grid,
+  .newsletter-card,
+  .ingredient-grid,
+  .feature-grid,
+  .benefit-grid,
+  .instagram-grid,
+  .product-actions-full,
+  .order-product-card,
+  .testimonial-card,
+  .contact-form,
+  .contact-info,
+  .hero-visual,
+  .hero-card,
+  .nav-bar {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+
   .hero-section {
-    gap: 28px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 28px 16px 24px;
+  }
+  .hero-content {
+    gap: 16px;
   }
   .hero-section h1 {
-    font-size: 2.4rem;
+    font-size: 2.1rem;
+    line-height: 1.1;
+  }
+  .hero-section p {
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 100%;
+    margin-bottom: 18px;
   }
   .hero-buttons {
     flex-direction: column;
+    gap: 12px;
   }
+  .hero-buttons .button {
+    width: 100%;
+    padding: 14px 0;
+  }
+  .hero-visual {
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .hero-card {
+    width: 100%;
+    padding: 20px;
+    border-radius: 22px;
+    box-shadow: 0 10px 24px rgba(141,61,122,0.06);
+    backdrop-filter: none;
+    animation: none;
+    background: rgba(255,255,255,0.96);
+  }
+  .hero-card img {
+    border-radius: 16px;
+    object-fit: contain;
+    max-height: 260px;
+    width: 100%;
+  }
+  .flower { display: none; }
+
+  .section,
+  .footer {
+    padding: 34px 16px;
+  }
+  .section {
+    padding-bottom: 36px;
+  }
+  .section-intro {
+    max-width: 100%;
+    margin: 0 auto 26px;
+  }
+  .section-intro h2 {
+    font-size: 2rem;
+  }
+
   .feature-grid,
   .benefit-grid,
   .ingredient-grid,
   .instagram-grid,
-  .footer-menu {
+  .footer-menu,
+  .contact-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
-  .hero-card {
-    padding: 24px;
+
+  .feature-card,
+  .benefit-card,
+  .ingredient-card,
+  .instagram-card,
+  .testimonial-card,
+  .newsletter-card,
+  .contact-info,
+  .contact-form,
+  .cart-panel,
+  .product-card-glass,
+  .order-product-card {
+    box-shadow: 0 10px 24px rgba(141,61,122,0.06);
+    border: 1px solid rgba(233,30,99,0.08);
+    background: rgba(255,255,255,0.96);
   }
-  .product-media img {
-    min-height: 340px;
+
+  .product-card-glass {
+    border-radius: 20px;
   }
+  .product-media img,
+  .order-product-card img {
+    object-fit: contain;
+    height: auto;
+    max-height: 250px;
+    width: 100%;
+    background: #fff;
+  }
+
   .product-actions-full {
     flex-direction: column;
+    gap: 12px;
   }
+  .product-actions-full .button {
+    width: 100%;
+  }
+
+  .order-layout {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .order-product-card {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 12px;
+  }
+  .order-product-card .product-actions {
+    padding: 14px;
+    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .qty-btn {
+    width: 54px;
+    height: 54px;
+    border-radius: 14px;
+    font-size: 1.2rem;
+  }
+  .qty-input {
+    min-width: 72px;
+    padding: 12px;
+  }
+  .subtotal {
+    margin: 0 18px 18px;
+  }
+
+  .cart-panel {
+    padding: 22px;
+    border-radius: 20px;
+  }
+  .order-header h2 {
+    font-size: 1.45rem;
+  }
+  .cart-summary {
+    padding: 18px;
+  }
+
+  .testimonial-cards {
+    min-height: 240px;
+  }
+  .testimonial-card {
+    padding: 22px;
+    border-radius: 20px;
+  }
+  .testimonial-meta {
+    gap: 12px;
+  }
+
   .newsletter-card {
-    padding: 28px;
+    padding: 26px;
+    border-radius: 22px;
   }
+
   .contact-grid {
     gap: 24px;
-    grid-template-columns: 1fr;
   }
   .contact-info {
     order: 2;
@@ -1063,28 +1393,47 @@ button {
   .contact-details p {
     font-size: 0.95rem;
   }
-  .whatsapp-link {
-    right: 16px;
-    bottom: 16px;
+  .contact-map iframe {
+    min-height: 240px;
   }
-  .nav-toggle { display: inline-grid; }
-  /* Mobile CTA */
-  .mobile-cta {
-    position: fixed;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    z-index: 80;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
+
+  .footer {
+    padding: 22px 16px;
+    border-radius: 20px;
   }
-  .mobile-cta .button {
-    flex: 1 1 auto;
-    padding: 12px 14px;
+  .footer-copy {
+    font-size: 0.9rem;
+  }
+
+  .header {
+    padding: 18px 16px;
+  }
+  .header-inner {
+    gap: 14px;
+  }
+  .nav-toggle {
+    display: inline-grid;
+    width: 48px;
+    height: 48px;
     border-radius: 14px;
-    font-size: 1rem;
+  }
+  .nav-bar {
+    padding-top: 96px;
+    padding-left: 24px;
+    padding-right: 24px;
+    width: 100%;
+  }
+  .nav-bar a {
+    font-size: 1.1rem;
+    padding: 16px 0;
+  }
+  .nav-bar {
+    justify-content: center;
+  }
+
+  .whatsapp-link,
+  .mobile-cta {
+    display: none !important;
   }
 }
 
