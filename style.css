@@ -122,6 +122,11 @@ button {
   font-weight: 700;
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  line-height: 1.1;
 }
 .button-primary {
   background: linear-gradient(135deg, var(--pink-dark), var(--pink-medium));
@@ -924,6 +929,19 @@ button {
 .contact-map:hover iframe {
   transform: scale(1.01);
 }
+
+/* Fallback message when map cannot be loaded */
+.map-fallback {
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: linear-gradient(180deg, rgba(255,245,249,0.95), rgba(255,230,240,0.9));
+  border-radius: 14px;
+  color: #5c2b50;
+  text-align: center;
+  box-shadow: 0 18px 50px rgba(141,61,122,0.08);
+}
+.map-fallback a { color: var(--pink-dark); font-weight: 700; text-decoration: underline; }
 .contact-form {
   display: grid;
   gap: 18px;
@@ -1180,176 +1198,334 @@ button {
     font-size: 15px;
   }
 
+  .mobile-carousel {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-scroll-btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(233,30,99,0.16);
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(255,242,248,0.95));
+    color: var(--pink-dark);
+    font-size: 1.3rem;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 12px 30px rgba(141,61,122,0.08);
+    flex-shrink: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .mobile-scroll-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(141,61,122,0.12);
+  }
+
+  .mobile-scroll-btn:active {
+    transform: scale(0.96);
+  }
+
+  .mobile-scroll-track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 2px 12px;
+    border-radius: 24px;
+    background: transparent;
+    box-shadow: none;
+    scroll-snap-type: x proximity;
+    position: relative;
+  }
+
+  .mobile-scroll-track::before,
+  .mobile-scroll-track::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .mobile-scroll-track::before {
+    left: 0;
+    background: linear-gradient(90deg, rgba(255,248,251,0.95), rgba(255,248,251,0));
+  }
+
+  .mobile-scroll-track::after {
+    right: 0;
+    background: linear-gradient(270deg, rgba(255,248,251,0.95), rgba(255,248,251,0));
+  }
+
+  .mobile-scroll-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-scroll-track .benefit-grid,
+  .mobile-scroll-track .ingredient-grid,
+  .mobile-scroll-track .instagram-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: max-content;
+    padding: 2px 6px;
+    align-items: stretch;
+  }
+
+  .mobile-scroll-track .benefit-card,
+  .mobile-scroll-track .ingredient-card,
+  .mobile-scroll-track .instagram-card {
+    flex: 0 0 min(82vw, 260px);
+    max-width: min(82vw, 260px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    backdrop-filter: blur(8px);
+    min-height: 100%;
+    border: none;
+    box-shadow: 0 16px 34px rgba(141,61,122,0.08), inset 0 1px 0 rgba(255,255,255,0.7);
+    transition: transform 0.38s cubic-bezier(.2,.8,.2,1), box-shadow 0.38s ease, filter 0.38s ease, opacity 0.38s ease;
+    overflow: hidden;
+  }
+
+  .mobile-scroll-track .benefit-card:hover,
+  .mobile-scroll-track .ingredient-card:hover,
+  .mobile-scroll-track .instagram-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 22px 42px rgba(141,61,122,0.12);
+    filter: saturate(1.04);
+  }
+
+  .mobile-scroll-track.is-moving .benefit-card,
+  .mobile-scroll-track.is-moving .ingredient-card,
+  .mobile-scroll-track.is-moving .instagram-card {
+    animation: mobileCardSwing 0.42s cubic-bezier(.2,.7,.2,1) both;
+  }
+
+  .mobile-scroll-track .instagram-card {
+    aspect-ratio: 1 / 1;
+  }
+
+  .mobile-scroll-track .instagram-card img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @keyframes mobileCardSwing {
+    0% {
+      opacity: 0.8;
+      transform: translateX(10px) scale(0.98);
+    }
+    60% {
+      opacity: 1;
+      transform: translateX(0) scale(1.008);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
   html, body {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
   }
 
+  .header,
   .hero-section,
   .section,
-  .footer,
-  .product-card-glass,
-  .order-layout,
-  .cart-panel,
-  .testimonial-cards,
-  .contact-grid,
-  .newsletter-card,
-  .ingredient-grid,
-  .feature-grid,
-  .benefit-grid,
-  .instagram-grid,
-  .product-actions-full,
-  .order-product-card,
-  .testimonial-card,
-  .contact-form,
-  .contact-info,
-  .hero-visual,
-  .hero-card,
-  .nav-bar {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box;
+  .footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand-name {
+    font-size: 0.95rem;
+  }
+
+  .brand-tag {
+    font-size: 0.75rem;
   }
 
   .hero-section {
     grid-template-columns: 1fr;
-    gap: 20px;
-    padding: 28px 16px 24px;
-  }
-  .hero-content {
     gap: 16px;
+    padding: 20px 16px 18px;
   }
+
+  .hero-eyebrow {
+    margin-bottom: 8px;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+  }
+
   .hero-section h1 {
-    font-size: 2.1rem;
-    line-height: 1.1;
+    font-size: 1.9rem;
+    line-height: 1.08;
+    margin-bottom: 10px;
   }
+
   .hero-section p {
-    font-size: 1rem;
-    line-height: 1.8;
-    max-width: 100%;
-    margin-bottom: 18px;
+    font-size: 0.94rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
   }
+
   .hero-buttons {
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    margin-bottom: 12px;
   }
+
   .hero-buttons .button {
     width: 100%;
-    padding: 14px 0;
+    padding: 12px 16px;
   }
+
+  .hero-highlights {
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
   .hero-visual {
-    min-height: 320px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+    min-height: 260px;
   }
+
   .hero-card {
-    width: 100%;
-    padding: 20px;
-    border-radius: 22px;
+    width: min(100%, 340px);
+    margin: 0 auto;
+    padding: 14px;
+    border-radius: 18px;
     box-shadow: 0 10px 24px rgba(141,61,122,0.06);
-    backdrop-filter: none;
-    animation: none;
     background: rgba(255,255,255,0.96);
   }
+
   .hero-card img {
-    border-radius: 16px;
+    border-radius: 14px;
     object-fit: contain;
-    max-height: 260px;
+    max-height: 220px;
     width: 100%;
   }
-  .flower { display: none; }
 
-  .section,
-  .footer {
-    padding: 34px 16px;
+  .flower {
+    display: none;
   }
+
   .section {
-    padding-bottom: 36px;
+    padding-top: 30px;
+    padding-bottom: 32px;
   }
+
   .section-intro {
-    max-width: 100%;
-    margin: 0 auto 26px;
+    margin: 0 auto 20px;
   }
+
   .section-intro h2 {
-    font-size: 2rem;
+    font-size: 1.76rem;
+    line-height: 1.2;
   }
 
   .feature-grid,
   .benefit-grid,
   .ingredient-grid,
   .instagram-grid,
-  .footer-menu,
-  .contact-grid {
+  .contact-grid,
+  .footer-menu {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  .feature-card,
-  .benefit-card,
-  .ingredient-card,
-  .instagram-card,
-  .testimonial-card,
-  .newsletter-card,
-  .contact-info,
-  .contact-form,
-  .cart-panel,
   .product-card-glass,
-  .order-product-card {
-    box-shadow: 0 10px 24px rgba(141,61,122,0.06);
-    border: 1px solid rgba(233,30,99,0.08);
-    background: rgba(255,255,255,0.96);
+  .order-layout,
+  .newsletter-card {
+    grid-template-columns: 1fr;
   }
 
   .product-card-glass {
-    border-radius: 20px;
+    border-radius: 18px;
   }
-  .product-media img,
-  .order-product-card img {
-    object-fit: contain;
-    height: auto;
-    max-height: 250px;
-    width: 100%;
-    background: #fff;
+
+  .product-details {
+    padding: 18px 16px 16px;
+  }
+
+  .product-details h3 {
+    font-size: 1.24rem;
+    margin-bottom: 8px;
+  }
+
+  .product-details p {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    line-height: 1.7;
+  }
+
+  .product-label {
+    margin-bottom: 8px;
+    padding: 7px 11px;
+    font-size: 0.8rem;
   }
 
   .product-actions-full {
     flex-direction: column;
-    gap: 12px;
-  }
-  .product-actions-full .button {
-    width: 100%;
+    gap: 10px;
   }
 
-  .order-layout {
-    grid-template-columns: 1fr;
-    gap: 18px;
+  .product-actions-full .button {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.92rem;
   }
+
   .order-product-card {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
     gap: 12px;
   }
+
   .order-product-card .product-actions {
-    padding: 14px;
-    gap: 10px;
+    padding: 12px 14px 14px;
+    gap: 8px;
     justify-content: space-between;
     flex-wrap: wrap;
   }
+
   .qty-btn {
     width: 54px;
     height: 54px;
     border-radius: 14px;
     font-size: 1.2rem;
   }
+
   .qty-input {
     min-width: 72px;
     padding: 12px;
   }
+
   .subtotal {
     margin: 0 18px 18px;
   }
@@ -1358,9 +1534,11 @@ button {
     padding: 22px;
     border-radius: 20px;
   }
+
   .order-header h2 {
     font-size: 1.45rem;
   }
+
   .cart-summary {
     padding: 18px;
   }
@@ -1368,31 +1546,37 @@ button {
   .testimonial-cards {
     min-height: 240px;
   }
+
   .testimonial-card {
     padding: 22px;
     border-radius: 20px;
   }
+
   .testimonial-meta {
     gap: 12px;
   }
 
   .newsletter-card {
-    padding: 26px;
-    border-radius: 22px;
+    padding: 22px 18px;
+    border-radius: 20px;
   }
 
   .contact-grid {
-    gap: 24px;
+    gap: 20px;
   }
+
   .contact-info {
     order: 2;
   }
+
   .contact-form {
     order: 1;
   }
+
   .contact-details p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
+
   .contact-map iframe {
     min-height: 240px;
   }
@@ -1400,42 +1584,56 @@ button {
   .footer {
     padding: 22px 16px;
     border-radius: 20px;
+    grid-template-columns: 1fr;
   }
+
   .footer-copy {
     font-size: 0.9rem;
   }
 
-  .header {
-    padding: 18px 16px;
-  }
   .header-inner {
     gap: 14px;
   }
+
   .nav-toggle {
     display: inline-grid;
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    margin-left: 0;
+    min-width: 44px;
+    min-height: 44px;
   }
+
   .nav-bar {
     padding-top: 96px;
     padding-left: 24px;
     padding-right: 24px;
     width: 100%;
   }
+
   .nav-bar a {
     font-size: 1.1rem;
     padding: 16px 0;
   }
-  .nav-bar {
-    justify-content: center;
-  }
 
-  .whatsapp-link,
-  .mobile-cta {
-    display: none !important;
+  .whatsapp-link {
+    width: 56px;
+    height: 56px;
+    right: 18px;
+    bottom: 18px;
   }
 }
 
 /* Ensure nav-toggle hidden on large screens */
 .nav-toggle { display: none; }
+
+.mobile-scroll-btn {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .mobile-scroll-btn {
+    display: grid;
+  }
+}
